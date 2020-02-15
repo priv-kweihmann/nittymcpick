@@ -1,0 +1,17 @@
+[
+    {
+        "linter": {
+            "name": "test",
+            "path": "/bin/echo",
+            "args": ["strange behavior:1:but what do I know:"],
+            "ret_regex": "^(?P<severity>.*?):(?P<line>\\d+):(?P<message>.*?):(?P<file>.*)$",
+            "tweaks": {
+                "line_count_adjust": 0,
+                "single_file_exec": true
+            }
+        },
+        "matches": {
+            "pattern": ".*"
+        }
+    }
+]
