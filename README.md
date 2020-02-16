@@ -1,3 +1,9 @@
+![Build status](https://github.com/priv-kweihmann/nittymcpick/workflows/Python%20package/badge.svg)
+[![PyPI version](https://badge.fury.io/py/nittymcpick.svg)](https://badge.fury.io/py/nittymcpick)
+[![Python version](https://img.shields.io/pypi/pyversions/nittymcpick)](https://img.shields.io/pypi/pyversions/nittymcpick)
+[![Downloads](https://img.shields.io/pypi/dm/nittymcpick)](https://img.shields.io/pypi/dm/nittymcpick)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/priv-kweihmann/nittymcpick.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/priv-kweihmann/nittymcpickv/context:python)
+
 # nittymcpick
 
 Your friendly nitpicking GitLab bot
