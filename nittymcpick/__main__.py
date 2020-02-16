@@ -1,15 +1,9 @@
 import argparse
-import asyncio
-import json
 import os
-import shutil
-import subprocess
-import sys
 import time
 from queue import Queue
 from threading import Thread
 
-import aiohttp
 from gidgetlab.aiohttp import GitLabBot
 
 import gitlab

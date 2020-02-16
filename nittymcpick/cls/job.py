@@ -1,12 +1,9 @@
 import os
 import subprocess
-import gitlab
 import sys
 import shutil
 
-from nittymcpick.cls.comment import Comment
 from nittymcpick.cls.difffile import DiffFile
-from nittymcpick.cls.linter import Linter
 
 class Job():
     def __init__(self, event, gl, args, sgl, linter):
