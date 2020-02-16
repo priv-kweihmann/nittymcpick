@@ -14,7 +14,7 @@ This bot does run custom linting tools on receiving a webhook from GitLab and re
 
 ## Prerequisites
 
-* python 3.7+
+* python 3.6+
 * GitLab CE/EE
 
 ## Setup
