@@ -3,10 +3,8 @@ FROM python:3.7-buster
 ENV GL_ACCESS_TOKEN=abcdefghijklmnopqrstuvwxyz
 # Config file to use
 ENV NP_CONFIG_FILE=/opt/nittymcpick/config.json
-# URL of the Gitlab server
-ENV GITLAB_SERVER=http://127.0.0.1
 # Username @ GitLab
-ENV GITLAB_USER=nittymcpick
+ENV NITTY_MCPICK_USERNAME=nittymcpick
 # Bind to... 
 ENV NP_HOST=0.0.0.0
 # ..on port
@@ -22,5 +20,5 @@ RUN useradd -U -m -s /bin/sh nittymcpick && \
 
 USER nittymcpick
 WORKDIR /opt/nittymcpick
-CMD ["/bin/sh", "-c", "nittymcpick ${NP_ADDARGUMENT} --host=${NP_HOST} --port=${NP_PORT} ${GITLAB_SERVER} ${GITLAB_USER} ${NP_CONFIG_FILE}"]
+CMD ["/bin/sh", "-c", "nittymcpick ${NP_ADDARGUMENT} --host=${NP_HOST} --port=${NP_PORT} ${NP_CONFIG_FILE}"]
 ENTRYPOINT ["/bin/sh"]
