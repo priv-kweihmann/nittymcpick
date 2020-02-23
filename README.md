@@ -133,3 +133,10 @@ mytool found a potential error - the code is absolutely insecure
 ## Docker
 
 There is an already prepared container available under `privkweihmann/nittymcpick:latest`
+
+## A word on security
+
+It is heavily advised to run the bot on the gitlab server itself,
+as currently only `http://` as a webhook protocol is supported.
+
+PRs to enable `https://` as welcome!
