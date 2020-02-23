@@ -101,7 +101,6 @@ usage: nittymcpick [-h] [--token TOKEN] [--onlynew] [--nowip] [--host HOST]
 Your friendly linting bot for gitlab
 
 positional arguments:
-  gitlab         Url of the gitlab server. E.g. http://foo.bar.corp.com
   botname        Username of the bot in GitLab
   config         config file
 
@@ -118,7 +117,7 @@ e.g. run
 
 ```shell
 export GL_ACCESS_TOKEN=<Impersonation Token from gitlab>
-nittymcpick http://mygitlab.corp.com nittymcpick config.json
+nittymcpick nittymcpick config.json
 ```
 
 now everytime a merge request is opened or changed the tool will run all the configured linting tools.

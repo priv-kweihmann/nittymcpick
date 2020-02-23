@@ -2,4 +2,5 @@ aiohttp>=3.6.2
 cachetools>=4.0.0
 gidgetlab>=0.5.0
 python-gitlab>=2.0.0
-unidiff>=0.5.5 
+unidiff>=0.5.5
+urllib3>=1.21.1
