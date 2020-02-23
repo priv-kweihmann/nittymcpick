@@ -19,9 +19,11 @@ class Job():
     def Run(self):
         if self.__event.object_attributes["work_in_progress"] and \
             not self.__args.nowip:
+            print("Skip WIP for: {}".format(self))
             return
         if self.__event.object_attributes["state"] in ["merged", "closed"]:
             # Don't act on closed or merged MRs
+            print("Skip closed for: {}".format(self))
             return
 
         _path = self.__checkout_source_branch(self.__args.tmpdir)
