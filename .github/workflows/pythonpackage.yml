@@ -33,4 +33,4 @@ jobs:
     - name: Install
       run: python3 setup.py install
     - name: Test
-      run: GL_ACCESS_TOKEN=123456 timeout --foreground --kill-after=5s 20s nittymcpick http://foo.org nittymcpick config.json.sample || if [ $? == 124 ]; then exit 0; else exit 1; fi;
+      run: GL_ACCESS_TOKEN=123456 timeout --foreground --kill-after=5s 20s nittymcpick config.json.sample || if [ $? == 124 ]; then exit 0; else exit 1; fi;
