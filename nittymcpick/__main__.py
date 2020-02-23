@@ -29,6 +29,7 @@ def create_args():
     parser.add_argument("--port", type=int, default=8888,
                         help="Port to bind to (default:8888)")
     parser.add_argument("--botname", default=os.getenv("NITTY_MCPICK_USERNAME", None) or "nittymcpick", help="Username of the bot in GitLab (default:NITTY_MCPICK_USERNAME from env or 'nittymcpick')")
+    parser.add_argument("--tmpdir", default="/tmp", help="Path for temporary checkouts")
     parser.add_argument("config", help="config file")
     return parser.parse_args()
 

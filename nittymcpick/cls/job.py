@@ -21,10 +21,10 @@ class Job():
             not self.__args.nowip:
             return
         if self.__event.object_attributes["state"] in ["merged", "closed"]:
-            # Don't act on closed or MRs
+            # Don't act on closed or merged MRs
             return
 
-        _path = self.__checkout_source_branch()
+        _path = self.__checkout_source_branch(self.__args.tmpdir)
         _files = self.__get_commits_diffs(_path)
         if _path:
             _finding = self.__run_linter(_files)
@@ -34,11 +34,11 @@ class Job():
     def __get_commits_diffs(self, _path):
         mr = self.__sgl.projects.get(self.__event.project_id).mergerequests.get(
             self.__event.object_attributes["iid"])
-        changes = mr.changes()
+        changes = mr.changes(all=True)
         return [DiffFile(x["new_path"], x["diff"], changes["diff_refs"]["base_sha"], changes["diff_refs"]["start_sha"], changes["diff_refs"]["head_sha"], _path)
-                for x in mr.changes()["changes"]]
+                for x in mr.changes(all=True)["changes"]]
 
-    def __checkout_source_branch(self, path="/tmp"):
+    def __checkout_source_branch(self, path):
         _path = f"{path}/{self.__event.project_id}/{self.__event.object_attributes['iid']}"
         good = False
         for method in [self.__event.object_attributes["source"]["ssh_url"], self.__event.object_attributes["source"]["http_url"]]:
@@ -70,7 +70,7 @@ class Job():
         mr = self.__sgl.projects.get(self.__event.project_id).mergerequests.get(
             self.__event.object_attributes["iid"])
 
-        existing_comments = [mr.discussions.get(x.id) for x in mr.discussions.list()]
+        existing_comments = [mr.discussions.get(x.id) for x in mr.discussions.list(all=True)]
         __all_notes = []
         for e in existing_comments:
             __all_notes += e.attributes['notes']
