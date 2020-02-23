@@ -1,12 +1,13 @@
 class Comment():
 
-    def __init__(self, text, line, file, base_sha, start_sha, head_sha):
+    def __init__(self, text, line, file, base_sha, start_sha, head_sha, username):
         self.__body = text
         self.__line = line
         self.__file = file
         self.__base_sha = base_sha
         self.__start_sha = start_sha
         self.__head_sha = head_sha
+        self.__username = username
 
     def __repr__(self):
         return "{}: {}: {}".format(self.__file, self.__line, self.__body)
@@ -33,6 +34,9 @@ class Comment():
                 "position_type": "text",
                 "new_line": self.__line,
                 "new_path": self.__file
+            },
+            "author": {
+                "username": self.__username
             }
         }
 
@@ -40,7 +44,8 @@ class Comment():
         _data = self.get_data()
         if _data["body"] == disobj["body"] and \
         _data["position"]["new_line"] == disobj["position"]["new_line"] and \
-        _data["position"]["new_path"] == disobj["position"]["new_path"]:
-            print("Comment {} already exists".format(_data["body"]))
+        _data["position"]["new_path"] == disobj["position"]["new_path"] and \
+        _data["author"]["username"] == disobj["author"]["username"]:
+            # print("Comment {} already exists".format(_data["body"]))
             return True
         return False

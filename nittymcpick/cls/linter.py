@@ -44,7 +44,7 @@ class Linter():
                 # if finding is not in change set, don't issue anything
                 if (_tpl["line"] in _f.affectedlines and self.__appargs.onlynew) or (not self.__appargs.onlynew):
                     _msg = "{} found a potential {} - {}".format(self.__name, _tpl["severity"], _tpl["message"])
-                    res.append(Comment(_msg, _tpl["line"], _f.relpath, _f.base_sha, _f.start_sha, _f.head_sha))
+                    res.append(Comment(_msg, _tpl["line"], _f.relpath, _f.base_sha, _f.start_sha, _f.head_sha, self.__appargs.botname))
         return res
 
     def Run(self, _files):

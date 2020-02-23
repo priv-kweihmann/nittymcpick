@@ -17,11 +17,13 @@ class Job():
         return "Project: {}, MR: {}".format(self.__event.project_id, self.__event.object_attributes["iid"])
 
     def Run(self):
-        if self.__event.work_in_progress and not self.__args.nowip:
+        if self.__event.object_attributes["work_in_progress"] and \
+            not self.__args.nowip:
             return
-        if self.__event.state in ["merged", "closed"]:
+        if self.__event.object_attributes["state"] in ["merged", "closed"]:
             # Don't act on closed or MRs
             return
+
         _path = self.__checkout_source_branch()
         _files = self.__get_commits_diffs(_path)
         if _path:
@@ -43,8 +45,9 @@ class Job():
             try:
                 if os.path.exists(_path):
                     self.__remove_clone(_path)
-                subprocess.check_call(["git", "clone", method, _path])
-                subprocess.check_call(["git", "-C", _path, "checkout", self.__event.object_attributes["last_commit"]["id"]])
+                subprocess.check_call(["git", "clone", method, _path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                subprocess.check_call(["git", "-C", _path, "checkout", self.__event.object_attributes["last_commit"]["id"]], 
+                                      stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 good = True
                 break
             except subprocess.CalledProcessError:
@@ -66,5 +69,36 @@ class Job():
     def __lint_to_comments(self, _input):
         mr = self.__sgl.projects.get(self.__event.project_id).mergerequests.get(
             self.__event.object_attributes["iid"])
+
+        existing_comments = [mr.discussions.get(x.id) for x in mr.discussions.list()]
+        __all_notes = []
+        for e in existing_comments:
+            __all_notes += e.attributes['notes']
+            
+        new_comments = []
         for f in _input:
-            mr.discussions.create(f.get_data())
+            for e in existing_comments:
+                __all_notes += e.attributes['notes']
+            if not any([f.equals(x) for x in __all_notes]):
+                if f.get_data() not in new_comments:
+                    new_comments.append(f.get_data())
+        
+        resolved_comments = []
+        for e in existing_comments:
+            for n in e.attributes['notes']:
+                if n["author"]["username"] != self.__args.botname:
+                    continue
+                if not any([x.equals(n) for x in _input]):
+                    if (e, n["id"]) not in resolved_comments:
+                        resolved_comments.append((e, n["id"]))                        
+        print("Resolved {} issues for: {}".format(len(resolved_comments), self))
+        print("New {} issues for: {}".format(len(new_comments), self))
+        for f in new_comments:
+            mr.discussions.create(f)
+
+        for f in resolved_comments:
+            try:
+                f[0].notes.delete(f[1])
+            except Exception as e:
+                print(e)
+        print("Done with {}".format(self))
