@@ -95,22 +95,25 @@ The regular expression to extract all the needed data should contain the followi
 
 ```text
 usage: nittymcpick [-h] [--token TOKEN] [--onlynew] [--nowip] [--host HOST]
-                    [--port PORT]
-                    gitlab botname config
+                   [--port PORT] [--botname BOTNAME]
+                   config
 
 Your friendly linting bot for gitlab
 
 positional arguments:
-  botname        Username of the bot in GitLab
-  config         config file
+  config             config file
 
 optional arguments:
-  -h, --help     show this help message and exit
-  --token TOKEN  Access token to use (default:GL_ACCESS_TOKEN from environment)
-  --onlynew      Comment only on changes (default:false)
-  --nowip        Ignore WIP merge requests (default:false)
-  --host HOST    IP to bind to (default:127.0.0.1)
-  --port PORT    Port to bind to (default:8888)
+  -h, --help         show this help message and exit
+  --token TOKEN      Access token to use (default:GL_ACCESS_TOKEN from
+                     environment)
+  --onlynew          Comment only on changes (default:false)
+  --nowip            Ignore WIP merge requests (default:false)
+  --host HOST        IP to bind to (default:127.0.0.1)
+  --port PORT        Port to bind to (default:8888)
+  --botname BOTNAME  Username of the bot in GitLab
+                     (default:NITTY_MCPICK_USERNAME from env or 'nittymcpick')
+
 ```
 
 e.g. run

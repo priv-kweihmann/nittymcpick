@@ -28,7 +28,7 @@ def create_args():
                         help="IP to bind to (default:127.0.0.1)")
     parser.add_argument("--port", type=int, default=8888,
                         help="Port to bind to (default:8888)")
-    parser.add_argument("botname", help="Username of the bot in GitLab")
+    parser.add_argument("--botname", default=os.getenv("NITTY_MCPICK_USERNAME", None) or "nittymcpick", help="Username of the bot in GitLab (default:NITTY_MCPICK_USERNAME from env or 'nittymcpick')")
     parser.add_argument("config", help="config file")
     return parser.parse_args()
 
