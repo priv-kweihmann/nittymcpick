@@ -1,6 +1,8 @@
 import os
 
 from unidiff import PatchSet, UnidiffParseError
+
+
 class DiffFile():
 
     def __init__(self, file, diff, base_sha, start_sha, head_sha, rootpath=""):
@@ -20,13 +22,13 @@ class DiffFile():
             # On some version the diff header is missing
             # just add a fake one
             _patch = PatchSet("diff --git a/{} b/{}\n--- a/{}\n+++ b/{}\n{}".format(
-                                self.__file, self.__file, self.__file, self.__file, self.__diff))
+                self.__file, self.__file, self.__file, self.__file, self.__diff))
         for _f in _patch.added_files + _patch.modified_files:
             for h in [x for x in _f]:
                 res += h.target_lines()
         res = [x.target_line_no for x in res]
         return res
-    
+
     def __getpath(self, relative=False):
         if not relative:
             if not self.__file.startswith("/"):
@@ -48,19 +50,19 @@ class DiffFile():
     @property
     def diff(self):
         return self.__diff
-    
+
     @property
     def base_sha(self):
         return self.__base_sha
-    
+
     @property
     def affectedlines(self):
         return self.__affectedlines
-    
+
     @property
     def start_sha(self):
         return self.__start_sha
-    
+
     @property
     def head_sha(self):
         return self.__head_sha

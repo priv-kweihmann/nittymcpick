@@ -5,6 +5,7 @@ import shutil
 
 from nittymcpick.cls.difffile import DiffFile
 
+
 class Job():
     def __init__(self, event, gl, args, sgl, linter):
         self.__event = event
@@ -18,7 +19,7 @@ class Job():
 
     def Run(self):
         if self.__event.object_attributes["work_in_progress"] and \
-            not self.__args.nowip:
+                not self.__args.nowip:
             print("Skip WIP for: {}".format(self))
             return
         if self.__event.object_attributes["state"] in ["merged", "closed"]:
@@ -47,8 +48,9 @@ class Job():
             try:
                 if os.path.exists(_path):
                     self.__remove_clone(_path)
-                subprocess.check_call(["git", "clone", method, _path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                subprocess.check_call(["git", "-C", _path, "checkout", self.__event.object_attributes["last_commit"]["id"]], 
+                subprocess.check_call(
+                    ["git", "clone", method, _path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                subprocess.check_call(["git", "-C", _path, "checkout", self.__event.object_attributes["last_commit"]["id"]],
                                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 good = True
                 break
@@ -72,11 +74,12 @@ class Job():
         mr = self.__sgl.projects.get(self.__event.project_id).mergerequests.get(
             self.__event.object_attributes["iid"])
 
-        existing_comments = [mr.discussions.get(x.id) for x in mr.discussions.list(all=True)]
+        existing_comments = [mr.discussions.get(
+            x.id) for x in mr.discussions.list(all=True)]
         __all_notes = []
         for e in existing_comments:
             __all_notes += e.attributes['notes']
-            
+
         new_comments = []
         for f in _input:
             for e in existing_comments:
@@ -84,7 +87,7 @@ class Job():
             if not any([f.equals(x) for x in __all_notes]):
                 if f.get_data() not in new_comments:
                     new_comments.append(f.get_data())
-        
+
         resolved_comments = []
         for e in existing_comments:
             for n in e.attributes['notes']:
@@ -92,7 +95,7 @@ class Job():
                     continue
                 if not any([x.equals(n) for x in _input]):
                     if (e, n["id"]) not in resolved_comments:
-                        resolved_comments.append((e, n["id"]))                        
+                        resolved_comments.append((e, n["id"]))
         print("Resolved {} issues for: {}".format(len(resolved_comments), self))
         print("New {} issues for: {}".format(len(new_comments), self))
         for f in new_comments:

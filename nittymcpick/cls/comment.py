@@ -11,15 +11,11 @@ class Comment():
 
     def __repr__(self):
         return "{}: {}: {}".format(self.__file, self.__line, self.__body)
-    
+
     @property
     def body(self):
         return self.__body
 
-    @property
-    def line(self):
-        return self.__line
-    
     @property
     def line(self):
         return self.__line
@@ -43,9 +39,9 @@ class Comment():
     def equals(self, disobj):
         _data = self.get_data()
         if _data["body"] == disobj["body"] and \
-        _data["position"]["new_line"] == disobj["position"]["new_line"] and \
-        _data["position"]["new_path"] == disobj["position"]["new_path"] and \
-        _data["author"]["username"] == disobj["author"]["username"]:
+                _data["position"]["new_line"] == disobj["position"]["new_line"] and \
+                _data["position"]["new_path"] == disobj["position"]["new_path"] and \
+                _data["author"]["username"] == disobj["author"]["username"]:
             # print("Comment {} already exists".format(_data["body"]))
             return True
         return False

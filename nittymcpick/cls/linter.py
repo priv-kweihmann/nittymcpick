@@ -5,6 +5,7 @@ import sys
 
 from nittymcpick.cls.comment import Comment
 
+
 class Linter():
 
     def __init__(self, _config, _appargs):
@@ -43,8 +44,10 @@ class Linter():
                 _f = _f[0]
                 # if finding is not in change set, don't issue anything
                 if (_tpl["line"] in _f.affectedlines and self.__appargs.onlynew) or (not self.__appargs.onlynew):
-                    _msg = "{} found a potential {} - {}".format(self.__name, _tpl["severity"], _tpl["message"])
-                    res.append(Comment(_msg, _tpl["line"], _f.relpath, _f.base_sha, _f.start_sha, _f.head_sha, self.__appargs.botname))
+                    _msg = "{} found a potential {} - {}".format(
+                        self.__name, _tpl["severity"], _tpl["message"])
+                    res.append(Comment(
+                        _msg, _tpl["line"], _f.relpath, _f.base_sha, _f.start_sha, _f.head_sha, self.__appargs.botname))
         return res
 
     def Run(self, _files):
@@ -56,8 +59,8 @@ class Linter():
         out = ""
         for l in _loops:
             try:
-                out += subprocess.check_output([self.__exec] + self.__args + [x.file for x in l], 
-                                            universal_newlines=True, stderr=subprocess.STDOUT)
+                out += subprocess.check_output([self.__exec] + self.__args + [x.file for x in l],
+                                               universal_newlines=True, stderr=subprocess.STDOUT)
             except subprocess.CalledProcessError as e:
                 out += e.stdout or ""
         return self.__eval(out, _matchfiles)
