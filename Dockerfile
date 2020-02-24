@@ -12,7 +12,7 @@ ENV NP_PORT=8888
 # Additional arguments
 ENV NP_ADDARGUMENT="--nowip --onlynew"
 
-RUN useradd -U -m -s /bin/sh nittymcpick && \
+RUN useradd -U -m -s /bin/bash nittymcpick && \
     mkdir -p /opt/nittymcpick && \
     chown -R nittymcpick:nittymcpick /opt/nittymcpick && \
     adduser nittymcpick root && \
@@ -20,5 +20,4 @@ RUN useradd -U -m -s /bin/sh nittymcpick && \
 
 USER nittymcpick
 WORKDIR /opt/nittymcpick
-CMD ["/bin/sh", "-c", "nittymcpick ${NP_ADDARGUMENT} --host=${NP_HOST} --port=${NP_PORT} ${NP_CONFIG_FILE}"]
-ENTRYPOINT ["/bin/sh"]
+CMD ["/bin/bash", "-c", "nittymcpick ${NP_ADDARGUMENT} --host=${NP_HOST} --port=${NP_PORT} ${NP_CONFIG_FILE}"]
