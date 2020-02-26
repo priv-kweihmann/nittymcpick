@@ -41,7 +41,7 @@ In the following we will assume a local installation on the GitLab Server itself
   * **admin/users/nittymcpick/impersonation_tokens**
     * __Name__ = e.g. Nitty McPick Bot
     * __Scopes__ = **api**, **read_repository**
-    * **IMPORTANT** copy the content pof **Your New Impersonation Token**
+    * **IMPORTANT** copy the content of **Your New Impersonation Token**
 
 ### Add bot to the project
 
@@ -120,7 +120,7 @@ e.g. run
 
 ```shell
 export GL_ACCESS_TOKEN=<Impersonation Token from gitlab>
-nittymcpick nittymcpick config.json
+nittymcpick config.json
 ```
 
 now everytime a merge request is opened or changed the tool will run all the configured linting tools.
