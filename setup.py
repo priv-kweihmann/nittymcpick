@@ -26,7 +26,11 @@ setuptools.setup(
     url="https://github.com/priv-kweihmann/nittymcpick",
     packages=setuptools.find_packages(),
     install_requires=requirements,
-    scripts=['bin/nittymcpick'],
+    entry_points={
+        "console_scripts": [
+            "nittymcpick = nittymcpick.__main__:main",
+        ]
+    },
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",

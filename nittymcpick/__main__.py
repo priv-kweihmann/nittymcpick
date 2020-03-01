@@ -63,7 +63,7 @@ async def merge_request_event(event, gl, *args, **kwargs):
     except Exception as e:
         print("Error at adding a job: {}".format(e))
 
-if __name__ == "__main__":
+def main():
     # Create all the needed global objects
     _args = create_args()
     if not _args.token:
@@ -75,3 +75,6 @@ if __name__ == "__main__":
     worker.start()
     # Start webhook server
     bot.run(host=_args.host, port=_args.port)
+
+if __name__ == "__main__":
+    main()
