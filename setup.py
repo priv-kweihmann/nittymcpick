@@ -17,7 +17,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="nittymcpick",
-    version="1.1.1",
+    version="1.1.2",
     author="Konrad Weihmann",
     author_email="kweihmann@outlook.com",
     description="GitLab bot for custom linting tools to comment MRs",
