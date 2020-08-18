@@ -70,40 +70,55 @@ class Job():
             res += l.Run(_files)
         return res
 
+    def __is_subset(self, large, subset):
+        return all((k in large and v == large[k]) for k,v in subset.items())
+
     def __lint_to_comments(self, _input):
         mr = self.__sgl.projects.get(self.__event.project_id).mergerequests.get(
             self.__event.object_attributes["iid"])
 
         existing_comments = [mr.discussions.get(
             x.id) for x in mr.discussions.list(all=True)]
-        __all_notes = []
+        __all_notes = set()
         for e in existing_comments:
-            __all_notes += e.attributes['notes']
+            __all_notes.update(e.attributes['notes'])
 
-        new_comments = []
+        new_comments = set()
         for f in _input:
             for e in existing_comments:
                 __all_notes += e.attributes['notes']
-            if not any([f.equals(x) for x in __all_notes]):
-                if f.get_data() not in new_comments:
-                    new_comments.append(f.get_data())
+            if not any([self.__is_subset(x, f.get_data()) for x in __all_notes]):
+                new_comments.add(f.get_data())
 
-        resolved_comments = []
+        resolved_comments = set()
         for e in existing_comments:
             for n in e.attributes['notes']:
                 if n["author"]["username"] != self.__args.botname:
                     continue
-                if not any([x.equals(n) for x in _input]):
-                    if (e, n["id"]) not in resolved_comments:
-                        resolved_comments.append((e, n["id"]))
+                if not any([self.__is_subset(n, x.get_data()) for x in _input]):
+                    if n["resolvable"] and not n["resolved"]:
+                        resolved_comments.add(e.attributes["id"])
+                        
         print("Resolved {} issues for: {}".format(len(resolved_comments), self))
         print("New {} issues for: {}".format(len(new_comments), self))
         for f in new_comments:
-            mr.discussions.create(f)
+            try:
+                mr.discussions.create(f)
+            except:
+                try:
+                    # for new files the old_line attribute
+                    # will not be accepted by the API
+                    # so let's retry it without it
+                    del f["position"]["old_line"]
+                    mr.discussions.create(f)
+                except:
+                    pass
 
         for f in resolved_comments:
             try:
-                f[0].notes.delete(f[1])
+                item = mr.discussions.get(f)
+                item.resolved = True
+                item.save()
             except Exception as e:
                 print(e)
         print("Done with {}".format(self))

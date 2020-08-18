@@ -28,6 +28,7 @@ class Comment():
                 "start_sha": self.__start_sha,
                 "head_sha": self.__head_sha,
                 "position_type": "text",
+                "old_line": self.__line,
                 "new_line": self.__line,
                 "new_path": self.__file
             },
