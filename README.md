@@ -8,6 +8,11 @@
 
 Your friendly nitpicking GitLab bot
 
+## Note
+
+Active development on this repository has stopped.
+Feel free to reach out if you're interested in reactivating it.
+
 ## Purpose
 
 This bot does run custom linting tools on receiving a webhook from GitLab and reporting back its findings as comments to the merge request diff
